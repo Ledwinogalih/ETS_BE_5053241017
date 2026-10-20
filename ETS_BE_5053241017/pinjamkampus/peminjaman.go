@@ -33,6 +33,10 @@ func (s *server) buatPeminjaman(w http.ResponseWriter, r *http.Request) {
 		tulisError(w, http.StatusBadRequest, "body bukan JSON yang valid")
 		return
 	}
+	if pesan := s.validasiPeminjaman(&p); pesan != "" {
+		tulisError(w, http.StatusBadRequest, pesan)
+		return
+	}
 
 	p.ID = s.nextPeminjamanID
 	s.nextPeminjamanID++
